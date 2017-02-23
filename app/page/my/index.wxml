@@ -1,2 +1,18 @@
+
 <!--page/my/index.wxml-->
-<text>page/my/index.wxml</text>
+<view class="my-info">
+  <image src="{{userInfo.avatarUrl ? userInfo.avatarUrl : 'default.png' }}" class="my-info__avatar"></image>
+  <view class="my-info__name">{{userInfo.nickName ? userInfo.nickName : '未登录' }}</view>
+  <navigator url="url" class="my-info__verify">验证手机</navigator>
+</view>
+<view class="weui-cells">
+  <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+    <view class="weui-cell__bd">我的订单</view>
+    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+  </navigator>
+  <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+    <view class="weui-cell__bd">常用地址</view>
+    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+  </navigator>
+</view>
+

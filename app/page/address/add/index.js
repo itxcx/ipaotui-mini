@@ -1,6 +1,7 @@
 // page/address/address/add/index
 
 import QQMapWX from '../../../assets/libs/qqmap-wx-jssdk.min'
+import { alert } from '../../../assets/libs/utils'
 const App = getApp()
 var qqmapsdk;
 
@@ -51,23 +52,22 @@ Page({
       loading: true
     })
     const params = e.detail.value
+    const that = this
+    
     if (!this.WxValidate.checkForm(e)) {
       const error = this.WxValidate.errorList[0]
-      wx.showModal({
-        content: error.msg,
-        showCancel: false
+      that.setData({
+        loading: false
       })
-      return false
+      return alert(error.msg)
     }
     const location = this.data.location
     if (!location) {
-      wx.showModal({
-        content: '请选取联系地址',
-        showCancel: false
+      that.setData({
+        loading: false
       })
-      return false
+      return alert('请选取联系地址')
     }
-    const that = this;
     qqmapsdk.reverseGeocoder({
       location: {
         latitude: location.latitude,

@@ -1,13 +1,14 @@
 {
   "pages": [
+    "page/my/index",
+    "page/phone/index",
+    "page/address/add/index",
     "page/index/index",
     "page/buy/index",
     "page/send/index",
     "page/address/select/index",
     "page/info/index",
-    "page/address/list/index",
-    "page/address/add/index",
-    "page/my/index"
+    "page/address/list/index"
   ],
   "window": {
     "navigationBarTextStyle": "#fff",

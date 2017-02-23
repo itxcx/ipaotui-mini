@@ -32,3 +32,12 @@ export function fetch(options) {
         }
     })
 }
+
+// 提示框
+export function alert(content) {
+    wx.showModal({
+        title: '提示',
+        content: content,
+        showCancel: false
+    })
+}

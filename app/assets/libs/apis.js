@@ -36,3 +36,17 @@ export function getPriceCan(options) {
         }
     })
 }
+
+// 获取验证码
+export function getCode(phone) {
+    fetch({
+        url: "index.php?m=Api&c=Common&a=checkMSG",
+        data: {
+            phone,
+            key: 'fast_login'
+        },
+        success: function (data) {
+            success && success(data)
+        }
+    })
+}
