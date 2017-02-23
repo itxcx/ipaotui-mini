@@ -1,0 +1,4 @@
+.weui-media-box_address {
+    padding: 0;
+    min-width: 180px;
+}
