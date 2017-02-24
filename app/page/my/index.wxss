@@ -23,3 +23,7 @@
     border: 1rpx solid #fff;
     border-radius: 3px;
 }
+
+.my-info__has-verify {
+    font-size: 12px;
+}

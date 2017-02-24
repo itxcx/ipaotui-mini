@@ -1,5 +1,6 @@
 import WxValidate from 'assets/libs/WxValidate'
 import { alert } from 'assets/libs/utils'
+import { login } from 'assets/libs/apis'
 
 require('assets/libs/object-assign').polyfill();
 const openIdUrl = require('./config').openIdUrl
@@ -20,6 +21,7 @@ App({
   },
   globalData: {
     userInfo: null,
+    loginInfo: null,
     openid: null
   },
   getUserInfo: function (callback) {
@@ -28,18 +30,31 @@ App({
       callback(null, that.globalData.userInfo)
     } else {
       wx.login({
+
         success: function (res) {
-          wx.getUserInfo({
-            success: function (res) {
-              console.log(res)
-              that.globalData.userInfo = res.userInfo
-              callback(null, res.userInfo)
-            },
-            fail: function (err) {
-              if (err.errMsg == 'getUserInfo:fail auth deny') {
-                alert('获取用户信息失败')
+          login({
+            code: res.code,
+            success(data) {
+              that.globalData.userInfo = data
+              if (data['session_3rd']) {
+                wx.setStorageSync('session_3rd', data['session_3rd'])
               }
-              callback(err)
+              wx.getUserInfo({
+                success: function (res) {
+                  that.globalData.userInfo = Object.assign(
+                    that.globalData.userInfo, res.userInfo
+                  )
+                },
+                fail: function (res) {
+                  // fail
+                  alert('获取用户信息失败')
+                },
+                complete: function (res) {
+                  // complete
+                  
+                  callback(null, that.globalData.userInfo)
+                }
+              })
             }
           })
         },
@@ -49,6 +64,7 @@ App({
       })
     }
   },
+
   // lazy loading openid
   getUserOpenId: function (callback) {
     var self = this

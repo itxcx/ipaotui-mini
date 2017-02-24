@@ -38,7 +38,10 @@ export function getPriceCan(options) {
 }
 
 // 获取验证码
-export function getCode(phone) {
+export function getCode(options) {
+    const {
+        phone, success
+    } = options
     fetch({
         url: "index.php?m=Api&c=Common&a=checkMSG",
         data: {
@@ -46,6 +49,23 @@ export function getCode(phone) {
             key: 'fast_login'
         },
         success: function (data) {
+            success && success(data)
+        }
+    })
+}
+
+// 登录
+export function login(options) {
+    const {
+        code, success
+    } = options
+    fetch({
+        url: "index.php?m=Api&c=WeixinMini&a=login",
+        data: {
+            code,
+            session_3rd: wx.getStorageSync('session_3rd'),
+        },
+        success(data) {
             success && success(data)
         }
     })

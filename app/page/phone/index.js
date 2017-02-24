@@ -3,7 +3,10 @@ import { alert } from '../../assets/libs/utils'
 import { getCode } from '../../assets/libs/apis'
 const App = getApp()
 Page({
-  data: {},
+  data: {
+    countDown: 0,
+    codeLabel: '获取验证码',
+  },
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
     this.initValidate()
@@ -19,6 +22,7 @@ Page({
   },
   onUnload: function () {
     // 页面关闭
+    clearInterval(this.timer)
   },
   initValidate() {
     this.WxValidate = App.WxValidate({
@@ -53,7 +57,26 @@ Page({
       return alert(error.msg)
     }
   },
-  bindCode: function(e) {
-
+  bindCode: function (e) {
+    if (this.data.countDown > 0) {
+      return;
+    }
+    this.setData({
+      countDown: 5
+    })
+    const that = this
+    that.timer = setInterval(function () {
+      let countDown = that.data.countDown - 1
+      console.log(countDown)
+      that.setData({
+        countDown
+      })
+      if (countDown <= 0) {
+        clearInterval(that.timer)
+        that.setData({
+          codeLabel: '重新获取验证码'
+        })
+      }
+    }, 1000)
   },
 })
