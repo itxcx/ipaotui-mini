@@ -1,11 +1,12 @@
 // page/phone/index.js
 import { alert } from '../../assets/libs/utils'
-import { getCode } from '../../assets/libs/apis'
+import { getCode, verify } from '../../assets/libs/apis'
 const App = getApp()
 Page({
   data: {
     countDown: 0,
     codeLabel: '获取验证码',
+    phone: '13000000004',
   },
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
@@ -23,6 +24,11 @@ Page({
   onUnload: function () {
     // 页面关闭
     clearInterval(this.timer)
+  },
+  inputPhone(e) {
+    this.setData({
+      phone: e.detail.value
+    })
   },
   initValidate() {
     this.WxValidate = App.WxValidate({
@@ -56,18 +62,40 @@ Page({
       })
       return alert(error.msg)
     }
+    verify({
+      phone: params.phone,
+      code: params.code,
+      success(data) {
+        App.globalData.userInfo = Object.assign(App.globalData.userInfo, data)
+        wx.navigateBack()
+      },
+      complete() {
+        that.setData({
+          loading: false
+        })
+      }
+    })
   },
   bindCode: function (e) {
     if (this.data.countDown > 0) {
       return;
     }
+
+    if (!this.data.phone) {
+      alert('请输入手机号')
+      return;
+    }
+    if (!/^1[34578]\d{9}$/.test(this.data.phone)) {
+      alert('请输入11位手机号码')
+      return;
+    }
+
     this.setData({
       countDown: 5
     })
     const that = this
     that.timer = setInterval(function () {
       let countDown = that.data.countDown - 1
-      console.log(countDown)
       that.setData({
         countDown
       })
@@ -78,5 +106,8 @@ Page({
         })
       }
     }, 1000)
+    getCode({
+      phone: this.data.phone,
+    })
   },
 })

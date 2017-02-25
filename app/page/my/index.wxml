@@ -7,11 +7,11 @@
   <view wx:else>{{userInfo.bound_phone}}<view class="my-info__has-verify">(已验证)</view></view>
 </view>
 <view class="weui-cells">
-  <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+  <navigator url="{{userInfo.user_id ? '/page/order/list/index' : '/page/phone/index'}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
     <view class="weui-cell__bd">我的订单</view>
     <view class="weui-cell__ft weui-cell__ft_in-access"></view>
   </navigator>
-  <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+  <navigator url="/page/address/list/index" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
     <view class="weui-cell__bd">常用地址</view>
     <view class="weui-cell__ft weui-cell__ft_in-access"></view>
   </navigator>

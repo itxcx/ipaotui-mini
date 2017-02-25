@@ -1,0 +1,16 @@
+
+<!--page/order/list/index.wxml-->
+<navigator url="/page/" class="order-item order-item_{{types[item.type]}}" wx:for="{{items}}" wx:key="order_id">
+    <view class="order-item__status">{{status[item.state]}}</view>
+  <view class="order-item__hd">
+    <view >
+    <view class="order-item__type"></view>
+    </view>
+    <view class="order-item__goods-info">{{item.good_info}}</view>
+    <view class="order-item__addtime">{{item.add_time_format}}</view>
+  </view>
+  <view class="order-item__bd">
+    <view wx:if="{{item.start_address != item.end_address}}">{{startAddressLabels[item.type]}}: {{item.start_address}}</view>
+    <view >收货地址: {{item.end_address}}</view>
+  </view>
+</navigator>

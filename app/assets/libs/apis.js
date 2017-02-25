@@ -70,3 +70,55 @@ export function login(options) {
         }
     })
 }
+
+// 验证手机
+export function verify(options) {
+    const {
+        phone, code, success, complete
+    } = options
+    const App = getApp()
+    App.getUserInfo(function (err, userInfo) {
+        if (err) {
+            return alert(err);
+        }
+        fetch({
+            url: "index.php?m=Api&c=WeixinMini&a=verify",
+            data: {
+                phone,
+                code,
+                openid: userInfo.openid
+            },
+            success(data) {
+                success && success(data)
+            },
+            complete() {
+                complete && complete()
+            }
+        })
+    })
+}
+
+// 加载订单
+export function getReleaseList(options) {
+    const {
+        last_id, success
+    } = options;
+    const App = getApp()
+    App.getUserInfo(function (err, userInfo) {
+        if(err) {
+            return alert(err)
+        }
+        fetch({
+            url: 'index.php?m=Api&c=Order&a=getReleaseList',
+            data: {
+                user_id: userInfo.user_id,
+                user_token: userInfo.user_token,
+                last_id
+            },
+            success(data) {
+                success && success(data)
+            }
+        })
+    })
+
+}

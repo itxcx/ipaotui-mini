@@ -1,7 +1,9 @@
 {
   "pages": [
-    "page/phone/index",
+    "page/order/show/index",
+    "page/order/list/index",
     "page/my/index",
+    "page/phone/index",
     "page/address/add/index",
     "page/index/index",
     "page/buy/index",

@@ -1,4 +1,5 @@
 'use strict';
+import timeago from './timeago.min'
 import { host } from '../../config'
 
 export function getPrevPage() {
@@ -40,4 +41,9 @@ export function alert(content) {
         content: content,
         showCancel: false
     })
+}
+
+// 时间格式化
+export function datetimeFormat(unix_timestamp) {
+    return new timeago().format(new Date(unix_timestamp * 1000), 'zh_CN'); 
 }
