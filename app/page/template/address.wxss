@@ -1,4 +1,7 @@
 .weui-media-box_address {
-    padding: 0;
-    min-width: 180px;
+    padding: 0 2em;
+}
+
+.weui-media-box__title_in-text:last-child {
+    margin-bottom: 0;
 }

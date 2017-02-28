@@ -29,3 +29,4 @@ button[disabled][type="primary"], button[loading][type="primary"] {
 .weui-media-box {
     display: block;
 }
+

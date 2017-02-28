@@ -6,7 +6,6 @@ Page({
   data: {
     toAddress: defaultAddress,
     toAddressIndex: defaultAddress ? 0 : -1,
-    buyAddressIndex: -1,
   },
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数

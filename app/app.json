@@ -1,16 +1,17 @@
 {
   "pages": [
-    "page/order/show/index",
+    "page/address/add/index",
+    "page/address/list/index",
+    "page/buy/index",
+    "page/buy/address/index",
+    "page/send/index",
     "page/order/list/index",
+    "page/order/show/index",
     "page/my/index",
     "page/phone/index",
-    "page/address/add/index",
     "page/index/index",
-    "page/buy/index",
-    "page/send/index",
     "page/address/select/index",
-    "page/info/index",
-    "page/address/list/index"
+    "page/info/index"
   ],
   "window": {
     "navigationBarTextStyle": "#fff",

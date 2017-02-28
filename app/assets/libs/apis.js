@@ -1,4 +1,4 @@
-import { fetch } from './utils'
+import { fetch, showLoading } from './utils'
 
 // 计算价格
 export function getPriceCalc(options) {
@@ -103,9 +103,9 @@ export function getReleaseList(options) {
     const {
         last_id, success
     } = options;
-    const App = getApp()
-    App.getUserInfo(function (err, userInfo) {
-        if(err) {
+    showLoading()
+    getApp().getUserInfo(function (err, userInfo) {
+        if (err) {
             return alert(err)
         }
         fetch({
@@ -117,8 +117,38 @@ export function getReleaseList(options) {
             },
             success(data) {
                 success && success(data)
+            },
+            complete() {
+                wx.hideToast()
             }
         })
     })
 
+}
+
+// 订单详情
+export function getOrderInfo(options) {
+    const {
+        order_id, success
+    } = options
+    showLoading()
+    getApp().getUserInfo(function (err, userInfo) {
+        if (err) {
+            return alert(err)
+        }
+        fetch({
+            url: 'index.php?m=Api&c=Order&a=getOrderInfo',
+            data: {
+                user_id: userInfo.user_id,
+                user_token: userInfo.user_token,
+                order_id
+            },
+            success(data) {
+                success && success(data)
+            },
+            complete() {
+                wx.hideToast()
+            }
+        })
+    })
 }

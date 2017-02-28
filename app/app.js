@@ -1,6 +1,8 @@
 import WxValidate from 'assets/libs/WxValidate'
-import { alert } from 'assets/libs/utils'
+
+import { alert, getPois } from 'assets/libs/utils'
 import { login } from 'assets/libs/apis'
+
 
 require('assets/libs/object-assign').polyfill();
 const openIdUrl = require('./config').openIdUrl
@@ -21,8 +23,28 @@ App({
   },
   globalData: {
     userInfo: null,
-    loginInfo: null,
-    openid: null
+    currentAddress: null,
+  },
+  getCurrentAddress: function (callback) {
+    const that = this
+    if (that.globalData.currentAddress) {
+      callback(null, that.globalData.currentAddress)
+    } else {
+      wx.getLocation({
+        type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
+        success: function (res) {
+          // success
+          
+        },
+        fail: function (err) {
+          // fail
+          callback(err.errMsg)
+        },
+        complete: function () {
+          // complete
+        }
+      })
+    }
   },
   getUserInfo: function (callback) {
     const that = this;
@@ -47,11 +69,11 @@ App({
                 },
                 fail: function (res) {
                   // fail
-                  alert('获取用户信息失败')
+                  // alert('获取用户信息失败')
                 },
                 complete: function (res) {
                   // complete
-                  
+
                   callback(null, that.globalData.userInfo)
                 }
               })
@@ -65,36 +87,5 @@ App({
     }
   },
 
-  // lazy loading openid
-  getUserOpenId: function (callback) {
-    var self = this
 
-    if (self.globalData.openid) {
-      callback(null, self.globalData.openid)
-    } else {
-      wx.login({
-        success: function (data) {
-          wx.request({
-            url: openIdUrl,
-            data: {
-              code: data.code
-            },
-            success: function (res) {
-              console.log('拉取openid成功', res)
-              self.globalData.openid = res.data.openid
-              callback(null, self.globalData.openid)
-            },
-            fail: function (res) {
-              console.log('拉取用户openid失败，将无法正常使用开放接口等服务', res)
-              callback(res)
-            }
-          })
-        },
-        fail: function (err) {
-          console.log('wx.login 接口调用失败，将无法正常使用开放接口等服务', err)
-          callback(err)
-        }
-      })
-    }
-  }
 })

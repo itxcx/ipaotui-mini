@@ -18,18 +18,22 @@
   </view>
   <view class="weui-cells">
     <navigator url="/page/address/select/index?from=fromAddress&index={{fromAddressIndex}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-      <view class="weui-cell__bd">发货地址</view>
-      <view wx:if="{{fromAddress}}" class=" weui-cell__ft_in-access">
-        <template is="addressInfo" data="{{...fromAddress}}" />
+      <view class="weui-cell__hd">发货地址</view>
+      <view class="weui-cell__bd">
+        <template wx:if="{{fromAddress}}" is="addressInfo" data="{{...fromAddress}}" />
       </view>
-      <view wx:else class="weui-cell__ft weui-cell__ft_in-access">请选择发货地址(必填)</view>
+      <view class="weui-cell__ft  weui-cell__ft_in-access">
+        {{fromAddress ? '': '请选择发货地址(必填)'}}
+      </view>
     </navigator>
     <navigator url="/page/address/select/index?from=toAddress&index={{toAddressIndex}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-      <view class="weui-cell__bd">收货地址</view>
-      <view wx:if="{{toAddress}}" class=" weui-cell__ft_in-access">
-        <template is="addressInfo" data="{{...toAddress}}" />
+      <view class="weui-cell__hd">收货地址</view>
+      <view class="weui-cell__bd">
+        <template wx:if="{{toAddress}}" is="addressInfo" data="{{...toAddress}}" />
       </view>
-      <view wx:else class="weui-cell__ft weui-cell__ft_in-access">请选择收获地址(必填)</view>
+      <view class="weui-cell__ft  weui-cell__ft_in-access">
+        {{toAddress ? '': '请选择收获地址(必填)'}}
+      </view>
     </navigator>
   </view>
   <template wx:if="{{priceInfo}}" is="priceInfo" data="{{...priceInfo}}" />

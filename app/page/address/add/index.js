@@ -1,24 +1,15 @@
 // page/address/address/add/index
 
-import QQMapWX from '../../../assets/libs/qqmap-wx-jssdk.min'
-import { alert } from '../../../assets/libs/utils'
+import { alert, reverseGeocoder } from '../../../assets/libs/utils'
 const App = getApp()
-var qqmapsdk;
 
 Page({
   data: {},
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
     this.initValidate()
-    qqmapsdk = new QQMapWX({
-      key: 'FPOBZ-UT2K2-ZFYUC-CX67E-IOOYS-7XFQ6'
-    });
-    if (options.id) {
-      this.initData(options.id)
-      wx.setNavigationBarTitle({
-        title: '修改地址'
-      })
-    }
+    this.initData(options.id)
+
   },
   onReady: function () {
     // 页面渲染完成
@@ -36,13 +27,12 @@ Page({
     var that = this
     wx.chooseLocation({
       success: function (res) {
-        console.log(res)
         that.setData({
           location: {
             latitude: res.latitude,
             longitude: res.longitude,
-            name: res.name
-          }
+          }, 
+          address_name: res.name,
         })
       }
     })
@@ -53,7 +43,7 @@ Page({
     })
     const params = e.detail.value
     const that = this
-    
+
     if (!this.WxValidate.checkForm(e)) {
       const error = this.WxValidate.errorList[0]
       that.setData({
@@ -61,33 +51,18 @@ Page({
       })
       return alert(error.msg)
     }
-    const location = this.data.location
-    if (!location) {
+    const {location , address_name} = this.data
+    if (!location || !address_name) {
       that.setData({
         loading: false
       })
       return alert('请选取联系地址')
     }
-    qqmapsdk.reverseGeocoder({
-      location: {
-        latitude: location.latitude,
-        longitude: location.longitude
-      },
-      success: function (res) {
-        var {
-          ad_info: {
-            city, district, adcode
-          }
-        } = res.result
-        var address = Object.assign({
-          city, district,
-          district_id: adcode,
-          city_id: adcode.replace(/\d{2}$/, '00'),
-          address_name: location.name,
-          location: {
-            latitude: location.latitude,
-            longitude: location.longitude
-          },
+    reverseGeocoder({
+      location,
+      success: function (address) { 
+        var address = Object.assign(address, {
+          address_name, location
         }, params)
         var addressList = wx.getStorageSync('addressList') || []
         if (that.data.id) {
@@ -98,21 +73,12 @@ Page({
         wx.setStorageSync('addressList', addressList)
         wx.navigateBack()
       },
-      fail: function (res) {
-        console.log(res);
-      },
       complete: function (res) {
         that.setData({
           loading: false
         })
       }
     })
-
-    // addressList.push(
-    //   Object.assign({
-    //     location
-    //   }, params))
-    // wx.setStorageSync('addressList', addressList)
   },
   initValidate() {
     this.WxValidate = App.WxValidate({
@@ -133,18 +99,39 @@ Page({
       })
   },
   initData(id) {
-    const address = wx.getStorageSync('addressList')[id]
-    if (address) {
-      var {
-        name, phone, detail, location, address_name
-      } = address
-      this.setData({
-        name, phone, detail,
-        location: Object.assign({
-          name: address_name
-        }, location),
-        id
+    const that = this
+    if (id) {
+      const address = wx.getStorageSync('addressList')[id]
+      if (address) {
+        var {
+          name, phone, detail, location, address_name
+        } = address
+        this.setData({
+          name, phone, detail,
+          address_name, location,
+          id
+        })
+      }
+      wx.setNavigationBarTitle({
+        title: '修改地址'
+      })
+    } else {
+      App.getUserInfo(function (err, userInfo) {
+        if (err) {
+          return alert(err)
+        } else {
+          that.setData({
+            name: userInfo.nickName,
+            phone: userInfo.bound_phone,
+          })
+        }
+      })
+      App.getCurrentAddress(function(err, address) {
+        if(err) {
+          return alert(err)
+        }
+
       })
     }
-  }
+  },
 })

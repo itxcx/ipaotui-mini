@@ -1,4 +1,6 @@
 // page/address/list/index.js
+import {getAddress, removeAddress} from '../../../assets/libs/utils'
+
 Page({
   data: {
     addressList: []
@@ -25,6 +27,22 @@ Page({
     const addressList = wx.getStorageSync('addressList') || []
     this.setData({
       addressList
+    })
+  },
+  onLongTap(e) {
+    const that = this
+    const index = e.currentTarget.dataset.index
+    const address = getAddress(index)
+    wx.showModal({
+      title: '提示',
+      content: `是否删除地址 ${address.address_name} ${address.detail}`,
+      confirmText: '删除',
+      success: function(res) {
+        if(res.confirm) {
+          removeAddress(index)
+          that.loadAddressList()
+        }
+      }
     })
   }
 })

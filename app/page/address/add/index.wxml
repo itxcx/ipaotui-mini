@@ -24,7 +24,7 @@
       </view>
       <view class="weui-cell__bd">
         <view class="weui-select weui-select_no-border weui-select_in-select-after">
-          {{location.name}}
+          {{address_name}}
         </view>
       </view>
     </view>

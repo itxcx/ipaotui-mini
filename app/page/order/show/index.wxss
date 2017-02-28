@@ -1,1 +1,14 @@
 /* page/order/show/index.wxss */
+
+.weui-cell_invert .weui-cell__bd{
+    color: #999;
+}
+
+.weui-cell_invert .weui-cell__ft {
+    color: initial;
+}
+
+.weui-cell_misc .weui-cell__hd {
+    min-width: 5em;
+    color: #999;
+}

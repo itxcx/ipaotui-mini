@@ -2,7 +2,7 @@
 <!--page/address/list/index.wxml-->
 <view class="weui-panel">
   <view class="weui-panel__bd">
-    <view class="weui-media-box weui-media-box_text" wx:for="{{addressList}}" wx:key="{{index}}">
+    <view bindlongtap="onLongTap" data-index="{{index}}" class="weui-media-box weui-media-box_text" wx:for="{{addressList}}" wx:key="{{index}}">
       <view class="weui-media-box__title weui-media-box__title_in-text">{{item.address_name}} {{item.detail}}</view>
       <view class="weui-media-box__desc">{{item.name}} {{item.phone}}</view>
       <navigator url="/page/address/add/index?id={{index}}" class="btn-edit">
