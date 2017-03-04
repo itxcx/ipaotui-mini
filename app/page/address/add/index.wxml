@@ -38,6 +38,6 @@
     </view>
   </view>
   <view class="weui-btn-area">
-    <button class="weui-btn" loading="{{loading}}" type="primary" formType="submit">保存</button>
+    <button class="weui-btn" disabled="{{loading}}" loading="{{loading}}" type="primary" formType="submit">保存</button>
   </view>
 </form>

@@ -9,12 +9,12 @@
         <view class="weui-label">商品信息</view>
       </view>
       <view class="weui-cell__bd">
-        <input class="weui-input" placeholder="请输入商品名称" />
+        <input value="{{good_info}}" name="good_info" class="weui-input" placeholder="请输入商品名称" />
       </view>
     </view>
     <view class="weui-cell weui-cell_input">
       <view class="weui-cell__bd">
-        <input class="weui-input" placeholder="想对跑腿说什么(选填)" />
+        <input name="content" class="weui-input" placeholder="想对跑腿说什么(选填)" />
       </view>
     </view>
   </view>
@@ -40,6 +40,6 @@
   </view>
   <template wx:if="{{priceInfo}}" is="priceInfo" data="{{...priceInfo}}" />
   <view class="weui-btn-area">
-    <button class="weui-btn" loading="{{loading}}" type="primary">呼叫跑腿</button>
+    <button class="weui-btn" disabled="{{loading}}" loading="{{loading}}" type="primary" formType="submit">呼叫跑腿</button>
   </view>
 </form>

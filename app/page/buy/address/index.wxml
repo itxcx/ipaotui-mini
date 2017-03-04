@@ -8,7 +8,7 @@
       </view>
       <view class="weui-cell__bd">
         <view class="weui-select weui-select_no-border weui-select_in-select-after">
-          {{location.name}}
+          {{address_name}}
         </view>
       </view>
     </view>
@@ -22,6 +22,6 @@
     </view>
   </view>
   <view class="weui-btn-area">
-    <button class="weui-btn" loading="{{loading}}" type="primary" formType="submit">确定</button>
+    <button class="weui-btn" disabled="{{loading}}" loading="{{loading}}" type="primary" formType="submit">确定</button>
   </view>
 </form>

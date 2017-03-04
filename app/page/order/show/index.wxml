@@ -58,6 +58,12 @@
       <view>{{orderInfo.end_address}}</view>
     </view>
   </view>
+  <view wx:if="{{orderInfo.content}}" class="weui-cell weui-cell_misc">
+    <view class="weui-cell__hd">备注</view>
+    <view class="weui-cell__bd">
+      <view>{{orderInfo.content}}</view>
+    </view>
+  </view>
   <view class="weui-cell weui-cell_misc">
     <view class="weui-cell__hd">客服电话</view>
     <view data-phone="{{orderInfo.localphone}}" bindtap="makePhoneCall" class="weui-cell__bd">{{orderInfo.localphone}}</view>

@@ -1,21 +1,21 @@
 {
   "pages": [
-    "page/address/add/index",
-    "page/address/list/index",
-    "page/buy/index",
-    "page/buy/address/index",
     "page/send/index",
+    "page/buy/index",
+    "page/index/index",
+    "page/address/add/index",
     "page/order/list/index",
+    "page/address/list/index",
+    "page/buy/address/index",
     "page/order/show/index",
     "page/my/index",
     "page/phone/index",
-    "page/index/index",
     "page/address/select/index",
     "page/info/index"
   ],
   "window": {
     "navigationBarTextStyle": "#fff",
-    "navigationBarTitleText": "爱跑腿应用",
+    "navigationBarTitleText": "爱跑腿",
     "navigationBarBackgroundColor": "#25a1fa"
   },
   "networkTimeout": {

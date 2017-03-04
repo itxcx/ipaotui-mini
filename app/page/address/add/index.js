@@ -1,6 +1,7 @@
 // page/address/address/add/index
 
-import { alert, reverseGeocoder } from '../../../assets/libs/utils'
+import WxValidate from '../../../assets/libs/WxValidate'
+import { alert, reverseGeocoder, getAddress } from '../../../assets/libs/utils'
 const App = getApp()
 
 Page({
@@ -44,8 +45,8 @@ Page({
     const params = e.detail.value
     const that = this
 
-    if (!this.WxValidate.checkForm(e)) {
-      const error = this.WxValidate.errorList[0]
+    if (!this.wxValidate.checkForm(e)) {
+      const error = this.wxValidate.errorList[0]
       that.setData({
         loading: false
       })
@@ -81,7 +82,7 @@ Page({
     })
   },
   initValidate() {
-    this.WxValidate = App.WxValidate({
+    this.wxValidate = new WxValidate({
       name: {
         required: true,
       },
@@ -101,7 +102,7 @@ Page({
   initData(id) {
     const that = this
     if (id) {
-      const address = wx.getStorageSync('addressList')[id]
+      const address = getAddress(id)
       if (address) {
         var {
           name, phone, detail, location, address_name
@@ -125,12 +126,6 @@ Page({
             phone: userInfo.bound_phone,
           })
         }
-      })
-      App.getCurrentAddress(function(err, address) {
-        if(err) {
-          return alert(err)
-        }
-
       })
     }
   },

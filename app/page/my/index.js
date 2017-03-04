@@ -29,5 +29,11 @@ Page({
   },
   onUnload: function () {
     // 页面关闭
+  },
+  onShareAppMessage() {
+    return {
+      title: '爱跑腿',
+      path: '/page/index/index'
+    }
   }
 })

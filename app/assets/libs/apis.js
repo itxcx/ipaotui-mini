@@ -1,4 +1,4 @@
-import { fetch, showLoading } from './utils'
+import { fetch, showLoading, coordFormat } from './utils'
 
 // 计算价格
 export function getPriceCalc(options) {
@@ -9,9 +9,9 @@ export function getPriceCalc(options) {
         url: "index.php?m=Api&c=Common&a=getPriceCalc",
         data: {
             start_city: fromAddress.city_id,
-            start_location: `${fromAddress.location.longitude},${fromAddress.location.latitude}`,
+            start_location: coordFormat(fromAddress.location),
             end_city: toAddress.city_id,
-            end_location: `${toAddress.location.longitude},${toAddress.location.latitude}`,
+            end_location: coordFormat(toAddress.location),
             district_id: fromAddress.district_id
         },
         success: function (data) {
@@ -149,6 +149,53 @@ export function getOrderInfo(options) {
             complete() {
                 wx.hideToast()
             }
+        })
+    })
+}
+
+// 代我买
+export function addOrderBuy(options) {
+    const {
+        data, success, complete
+    } = options
+    getApp().getUserInfo(function (err, userInfo) {
+        if (err) {
+            return alert(err)
+        }
+        fetch({
+            url: 'index.php?m=Api&c=My&a=addOrder_buy',
+            data: Object.assign({
+                user_id: userInfo.user_id,
+                user_token: userInfo.user_token,
+                pay_type: 0,
+            }, data),
+            success(data) {
+                success && success(data)
+            },
+            complete
+        })
+    })
+}
+// 代我送
+export function addOrder(options) {
+    const {
+        data, success, complete
+    } = options
+    getApp().getUserInfo(function (err, userInfo) {
+        if (err) {
+            return alert(err)
+        }
+        fetch({
+            url: 'index.php?m=Api&c=My&a=addOrder',
+            data: Object.assign({
+                user_id: userInfo.user_id,
+                user_token: userInfo.user_token,
+                pay_type: 0,
+            }, data),
+            success(data) {
+                success && success(data)
+            },
+            complete
         })
     })
 }

@@ -33,7 +33,6 @@ Page({
     getOrderInfo({
       order_id,
       success(data) {
-        console.log(data)
         data.add_time_format = datetimeFormat(data.add_time)
         that.setData({
           orderInfo: data

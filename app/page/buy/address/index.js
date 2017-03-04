@@ -26,8 +26,8 @@ Page({
           location: {
             latitude: res.latitude,
             longitude: res.longitude,
-            name: res.name
-          }
+          },
+          address_name: res.name,
         })
       }
     })
@@ -35,9 +35,13 @@ Page({
   formSubmit: function (e) {
     const that = this
     const params = e.detail.value
-    const location = this.data.location
-    if (!location) {
-      return alert('请选取购买地址')
+    
+    const {location , address_name} = this.data
+    if (!location || !address_name) {
+      that.setData({
+        loading: false
+      })
+      return alert('请选取联系地址')
     }
 
     this.setData({
@@ -47,7 +51,9 @@ Page({
       location,
       success: function (address) {
         getPrevPage().setData({
-          buyAddress: Object.assign(address, params)
+          buyAddress: Object.assign(address, {
+            address_name, location
+          }, params)
         })
         wx.navigateBack()
       },

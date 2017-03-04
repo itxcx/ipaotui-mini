@@ -1,6 +1,6 @@
 // page/send/send.js
-import { getAddress } from '../../assets/libs/utils'
-import { getPriceCalc } from '../../assets/libs/apis'
+import { getAddress, alert, coordFormat } from '../../assets/libs/utils'
+import { getPriceCalc, addOrder } from '../../assets/libs/apis'
 
 const defaultAddress = getAddress(0)
 Page({
@@ -36,7 +36,7 @@ Page({
     if (fromAddress && toAddress) {
       getPriceCalc({
         fromAddress, toAddress,
-        success: function(data) {
+        success: function (data) {
           that.setData({
             priceInfo: data
           })
@@ -44,5 +44,65 @@ Page({
       })
     }
 
+  },
+  formSubmit(e) {
+    const that = this
+
+    this.setData({
+      loading: true
+    })
+    const {
+      info,
+      fromAddress, toAddress,
+      priceInfo
+    } = that.data
+    if (!info) {
+      this.setData({
+        loading: false
+      })
+      return alert('请选取物品信息')
+    }
+    if (!fromAddress) {
+      this.setData({
+        loading: false
+      })
+      return alert('请选取发货地址')
+    }
+    if (!toAddress) {
+      this.setData({
+        loading: false
+      })
+      return alert('请选取收货地址')
+    }
+    if (!priceInfo) {
+      this.setData({
+        loading: false
+      })
+      return alert('价格计算中, 请耐心等待')
+    }
+    const params = e.detail.value
+    addOrder({
+      data: Object.assign({
+        errands_price: priceInfo.price,
+        good_info: info,
+        start_city: fromAddress.city_id,
+        start_address: [fromAddress.address_name, fromAddress.detail].join(' ').trim(),
+        start_location: coordFormat(fromAddress.location),
+        end_city: toAddress.city_id,
+        end_address: [toAddress.address_name, toAddress.detail].join(' ').trim(),
+        end_location: coordFormat(toAddress.location),
+        send_start_phones: fromAddress.phone,
+        send_finish_key_phones: toAddress.phone,
+        district_name: fromAddress.district,
+      }, params),
+      success(data) {
+        console.log(data)
+      },
+      complete() {
+        that.setData({
+          loading: false
+        })
+      }
+    })
   }
 })

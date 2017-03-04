@@ -1,7 +1,9 @@
 // page/buy/index.js
-import { getAddress } from '../../assets/libs/utils'
-import { getPriceCalc, getPriceCan } from '../../assets/libs/apis'
+import WxValidate from '../../assets/libs/WxValidate'
+import { getAddress, alert, coordFormat } from '../../assets/libs/utils'
+import { getPriceCalc, getPriceCan, addOrderBuy } from '../../assets/libs/apis'
 const defaultAddress = getAddress(0)
+
 Page({
   data: {
     toAddress: defaultAddress,
@@ -9,6 +11,12 @@ Page({
   },
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
+    this.initValidate()
+    if(options.info) {
+      this.setData({
+        good_info: options.info
+      })
+    }
   },
   onReady: function () {
     // 页面渲染完成
@@ -25,7 +33,7 @@ Page({
   },
   calcPriceIfNeed() {
     const {toAddress, buyAddress} = this.data
-    const  that = this
+    const that = this
     if (buyAddress && toAddress) {
       getPriceCalc({
         fromAddress: buyAddress,
@@ -36,11 +44,11 @@ Page({
           })
         }
       })
-    } else if(toAddress) {
+    } else if (toAddress) {
       const {city_id, district_id} = toAddress
       getPriceCan({
         city_id, district_id,
-        success: function(data) {
+        success: function (data) {
           that.setData({
             priceInfo: {
               price: data.order_buy
@@ -50,5 +58,74 @@ Page({
       })
     }
 
-  }
+  },
+  formSubmit(e) {
+    const that = this
+
+    this.setData({
+      loading: true
+    })
+
+    if (!this.wxValidate.checkForm(e)) {
+      const error = this.wxValidate.errorList[0]
+      this.setData({
+        loading: false
+      })
+      return alert(error.msg)
+    }
+    const params = e.detail.value
+    var {
+      buyAddress, toAddress, priceInfo
+    } = this.data
+    if (!toAddress) {
+      this.setData({
+        loading: false
+      })
+      return alert('请选择收获地址')
+    }
+    if (!priceInfo) {
+      this.setData({
+        loading: false
+      })
+      return alert('价格计算中, 请耐心等待')
+    }
+    var data = {}
+    if (buyAddress) {
+      data = Object.assign(data, {
+        specified_city: buyAddress.city_id,
+        specified_address: [buyAddress.address_name, buyAddress.detail].join(' ').trim(),
+        specified_location: coordFormat(buyAddress.location),
+      })
+    }
+    addOrderBuy(Object.assign({
+      data: Object.assign({
+        errands_price: priceInfo.price,
+        city: toAddress.city_id,
+        address: [toAddress.address_name, toAddress.detail].join(' ').trim(),
+        location: coordFormat(toAddress.location),
+        send_finish_key_phones: toAddress.phone,
+        district_name: toAddress.district,
+      }, data, params),
+      success(data) {
+        console.log(data)
+
+      },
+      complete() {
+        that.setData({
+          loading: false
+        })
+      }
+    }))
+  },
+  initValidate() {
+    this.wxValidate = new WxValidate({
+      good_info: {
+        required: true,
+      },
+    }, {
+        good_info: {
+          required: '请输入商品名称',
+        },
+      })
+  },
 })

@@ -1,5 +1,11 @@
 
 <!--page/index/index.wxml-->
+<form catchsubmit="formSubmit">
+  <view class="weui-flex order">
+    <input  name="info" placeholder="商品名称" class="weui-flex__item" />
+    <button formType="submit" class="weui-btn" size="mini" type="primary">去下单</button>
+  </view>
+</form>
 <view class="weui-flex">
   <navigator url="/page/buy/index" class="weui-flex__item navigator" hover-class="navigator-hover">
     <view>

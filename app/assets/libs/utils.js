@@ -1,6 +1,7 @@
 'use strict';
 import timeago from './timeago.min'
 import QQMapWX from './qqmap-wx-jssdk.min'
+import {gcj02tobd09} from './coordtransform'
 import { host } from '../../config'
 
 const qqmap = new QQMapWX({
@@ -44,9 +45,9 @@ export function getAddressFromLocation(options) {
             if (poi) {
                 var address = Object.assign({
                     address_name: poi.title,
-                }, ObjeresolveAdInfo(poi.ad_info))
+                }, resolveAdInfo(poi.ad_info))
 
-                success && success()
+                success && success(address)
             }
         }
     })
@@ -101,10 +102,7 @@ export function fetch(options) {
             if (data.State == 'Success') {
                 options.success && options.success(data.data)
             } else {
-                wx.showModal({
-                    content: data.info,
-                    showCancel: false
-                });
+                alert(data.info)
             }
             options.complete && options.complete()
         }
@@ -133,4 +131,10 @@ export function showLoading() {
 // 时间格式化
 export function datetimeFormat(unix_timestamp) {
     return new timeago().format(new Date(unix_timestamp * 1000), 'zh_CN');
+}
+
+// 坐标格式化
+export function coordFormat(location) {
+    // gcj02 转 bd09
+    return gcj02tobd09(location.longitude, location.latitude).join(',')
 }

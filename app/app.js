@@ -1,14 +1,11 @@
-import WxValidate from 'assets/libs/WxValidate'
 
-import { alert, getPois } from 'assets/libs/utils'
+import { alert } from 'assets/libs/utils'
 import { login } from 'assets/libs/apis'
+import { polyfill } from 'assets/libs/object-assign'
 
-
-require('assets/libs/object-assign').polyfill();
-const openIdUrl = require('./config').openIdUrl
+polyfill()
 
 App({
-  WxValidate: (rules, messages) => new WxValidate(rules, messages),
   onLaunch: function () {
     console.log('App Launch')
   },
@@ -23,28 +20,6 @@ App({
   },
   globalData: {
     userInfo: null,
-    currentAddress: null,
-  },
-  getCurrentAddress: function (callback) {
-    const that = this
-    if (that.globalData.currentAddress) {
-      callback(null, that.globalData.currentAddress)
-    } else {
-      wx.getLocation({
-        type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
-        success: function (res) {
-          // success
-          
-        },
-        fail: function (err) {
-          // fail
-          callback(err.errMsg)
-        },
-        complete: function () {
-          // complete
-        }
-      })
-    }
   },
   getUserInfo: function (callback) {
     const that = this;
