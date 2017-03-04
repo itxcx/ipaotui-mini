@@ -30,3 +30,13 @@ button[disabled][type="primary"], button[loading][type="primary"] {
     display: block;
 }
 
+.weui-form-preview__btn_default {
+    color: #333;
+}
+
+.weui-form-preview__btn_primary {
+    color: #2598fa;
+}
+.weui-form-preview__btn_warn {
+    color: #E64340;
+}

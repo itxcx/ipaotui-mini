@@ -1,5 +1,5 @@
 // page/order/show/index.js
-import { datetimeFormat } from '../../../assets/libs/utils'
+import { datetimeFormat, confirm } from '../../../assets/libs/utils'
 import { getOrderInfo } from '../../../assets/libs/apis'
 import { STATUS, START_LABEL } from '../list/constant'
 
@@ -10,7 +10,7 @@ Page({
   },
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
-    this.order_id = options.id
+    this.order_id = options.id || '5774'
     this.loadData(this.order_id)
   },
   onReady: function () {
@@ -33,6 +33,7 @@ Page({
     getOrderInfo({
       order_id,
       success(data) {
+        console.log(data)
         data.add_time_format = datetimeFormat(data.add_time)
         that.setData({
           orderInfo: data
@@ -49,4 +50,13 @@ Page({
       }
     })
   },
+  onCancel(e) {
+    confirm({
+      content: '您是否确定取消订单?',
+      confirmText: '确认取消',
+      success() {
+        console.log('success')
+      }
+    })
+  }
 })

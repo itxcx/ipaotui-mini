@@ -5,6 +5,12 @@
     <view class="weui-cell__bd">订单{{STATUS[orderInfo.state]}}</view>
     <view class="weui-cell__ft">{{orderInfo.add_time_format}}</view>
   </view>
+  <view  class="actions">
+    <view wx:if="{{orderInfo.state == 1 || orderInfo.state == 2}}" bindtap="onCancel" class="actions__btn" hover-class="actions__btn_active" hover="true">取消订单</view>
+    <view wx:if="{{orderInfo.state == 2}}" class="actions__btn" hover-class="actions__btn_active" hover="true">马上付款</view>
+    <view wx:if="{{orderInfo.state == 8 }}" class="actions__btn" hover-class="actions__btn_active" hover="true">放弃订单</view>
+    <view wx:if="{{orderInfo.state == 8 || orderInfo.state == 9}}" class="actions__btn" hover-class="actions__btn_active" hover="true">完成</view>
+  </view>
 </view>
 <view class="weui-cells__title">订单明细</view>
 <view class="weui-cells weui-cells_after-title">
@@ -18,21 +24,21 @@
   </view>
 </view>
 <block wx:if="{{orderInfo.receive_id}}">
-<view class="weui-cells__title">跑腿信息</view>
-<view class="weui-cells weui-cells_after-title">
-  <view class="weui-cell weui-cell_misc">
-    <view class="weui-cell__hd">昵称</view>
-    <view class="weui-cell__bd">
-      <view>{{orderInfo.receive_nick}}</view>
+  <view class="weui-cells__title">跑腿信息</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_misc">
+      <view class="weui-cell__hd">昵称</view>
+      <view class="weui-cell__bd">
+        <view>{{orderInfo.receive_nick}}</view>
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_misc">
+      <view class="weui-cell__hd">联系方式</view>
+      <view class="weui-cell__bd">
+        <view data-phone="{{orderInfo.receive_phone}}" bindtap="makePhoneCall">{{orderInfo.receive_phone}}</view>
+      </view>
     </view>
   </view>
-  <view class="weui-cell weui-cell_misc">
-    <view class="weui-cell__hd">联系方式</view>
-    <view class="weui-cell__bd">
-      <view data-phone="{{orderInfo.receive_phone}}" bindtap="makePhoneCall">{{orderInfo.receive_phone}}</view>
-    </view>
-  </view>
-</view>
 </block>
 <view class="weui-cells__title">其他信息</view>
 <view class="weui-cells weui-cells_after-title">

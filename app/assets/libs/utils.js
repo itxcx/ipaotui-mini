@@ -117,6 +117,23 @@ export function alert(content) {
         showCancel: false
     })
 }
+// 确认框
+export function confirm(options) {
+    const {
+        content, confirmText,
+        success
+    } = options
+    wx.showModal({
+        content,
+        confirmText,
+        cancelText: '关闭',
+        success(res) {
+            if(res.confirm) {
+                success && success()
+            }
+        }
+    })
+}
 
 // 加载提示
 export function showLoading() {

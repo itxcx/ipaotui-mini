@@ -12,3 +12,19 @@
     min-width: 5em;
     color: #999;
 }
+
+.actions {
+    display: flex;
+}
+
+.actions__btn {
+    flex: 1;
+    padding: 8px 0;
+    color: #25a1fa;
+    text-align: center;
+    border-top: 1rpx solid #D9D9D9;
+}
+
+.actions__btn_active {
+    background-color: #eee;
+}

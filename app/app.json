@@ -1,13 +1,13 @@
 {
   "pages": [
-    "page/send/index",
+    "page/order/show/index",
+    "page/order/list/index",
     "page/buy/index",
+    "page/send/index",
     "page/index/index",
     "page/address/add/index",
-    "page/order/list/index",
     "page/address/list/index",
     "page/buy/address/index",
-    "page/order/show/index",
     "page/my/index",
     "page/phone/index",
     "page/address/select/index",
