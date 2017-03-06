@@ -121,7 +121,7 @@ export function alert(content) {
 export function confirm(options) {
     const {
         content, confirmText,
-        success
+        ok, 
     } = options
     wx.showModal({
         content,
@@ -129,7 +129,7 @@ export function confirm(options) {
         cancelText: '关闭',
         success(res) {
             if(res.confirm) {
-                success && success()
+                ok && ok()
             }
         }
     })
@@ -143,6 +143,9 @@ export function showLoading() {
         title: '加载中...',
         mask: true,
     })
+}
+export function hideLoading() {
+    wx.hideToast()
 }
 
 // 时间格式化

@@ -1,4 +1,8 @@
-import { fetch, showLoading, coordFormat } from './utils'
+import {
+    fetch,
+    showLoading, hideLoading,
+    coordFormat
+} from './utils'
 
 // 计算价格
 export function getPriceCalc(options) {
@@ -119,7 +123,7 @@ export function getReleaseList(options) {
                 success && success(data)
             },
             complete() {
-                wx.hideToast()
+                hideLoading()
             }
         })
     })
@@ -201,3 +205,115 @@ export function addOrder(options) {
 }
 
 // 取消订单
+export function cancelOrder(options) {
+    const {
+        order_id, success
+    } = options
+    showLoading()
+    getApp().getUserInfo(function (err, userInfo) {
+        if (err) {
+            return alert(err)
+        }
+        fetch({
+            url: 'index.php?m=Api&c=My&a=cancelOrder',
+            data: {
+                user_id: userInfo.user_id,
+                user_token: userInfo.user_token,
+                order_id,
+            },
+            success,
+            complete: hideLoading
+        })
+    })
+}
+// 放弃订单
+export function giveupOrder(options) {
+    const {
+        order_id, success,
+    } = options
+    showLoading()
+    getApp().getUserInfo(function (err, userInfo) {
+        if (err) {
+            return alert(err)
+        }
+        fetch({
+            url: 'index.php?m=Api&c=My&a=giveupOrder',
+            data: {
+                user_id: userInfo.user_id,
+                user_token: userInfo.user_token,
+                order_id,
+            },
+            success,
+            complete: hideLoading
+        })
+    })
+}
+// 同意放弃订单
+export function agreeGiveupOrder(options) {
+    const {
+        order_id, success,
+    } = options
+    showLoading()
+    getApp().getUserInfo(function (err, userInfo) {
+        if (err) {
+            return alert(err)
+        }
+        fetch({
+            url: 'index.php?m=Api&c=My&a=giveupOrder',
+            data: {
+                user_id: userInfo.user_id,
+                user_token: userInfo.user_token,
+                order_id,
+                agree: 1,
+            },
+            success,
+            complete: hideLoading
+        })
+    })
+}
+// 不同意放弃订单
+export function disagreeGiveupOrder(options) {
+    const {
+        order_id, success,
+    } = options
+    showLoading()
+    getApp().getUserInfo(function (err, userInfo) {
+        if (err) {
+            return alert(err)
+        }
+        fetch({
+            url: 'index.php?m=Api&c=My&a=giveupOrder',
+            data: {
+                user_id: userInfo.user_id,
+                user_token: userInfo.user_token,
+                order_id,
+                agree: 0,
+            },
+            success,
+            complete: hideLoading
+        })
+    })
+}
+// 完成订单
+export function finishOrder(options) {
+    const {
+        order_id, success,
+    } = options
+    showLoading()
+    getApp().getUserInfo(function (err, userInfo) {
+        if (err) {
+            return alert(err)
+        }
+        fetch({
+            url: 'index.php?m=Api&c=My&a=finishOrder',
+            data: {
+                user_id: userInfo.user_id,
+                user_token: userInfo.user_token,
+                order_id,
+                role: 'release',
+            },
+            success,
+            complete: hideLoading
+        })
+    })
+}

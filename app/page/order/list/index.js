@@ -1,7 +1,10 @@
 // page/order/list/index.js
 import { alert, datetimeFormat, showLoading } from '../../../assets/libs/utils'
 import { getReleaseList } from '../../../assets/libs/apis'
-import { STATUS, START_LABEL, TYPE } from './constant'
+import {
+  STATUS, STATUS_GIVEUP,
+  START_LABEL, TYPE
+} from './constant'
 
 const App = getApp()
 
@@ -10,7 +13,7 @@ Page({
   data: {
     items: [],
     hasMore: true,
-    STATUS,
+    STATUS, STATUS_GIVEUP,
     START_LABEL,
     TYPE,
   },
@@ -49,6 +52,7 @@ Page({
         that.last_id = data.last_id
         var list = data.list.map(function (item, i) {
           item.add_time_format = datetimeFormat(item.add_time)
+          item.status_label = item.state == '5' ? STATUS_GIVEUP[item.giveup] : STATUS[item.state]
           return item
         })
         that.setData({

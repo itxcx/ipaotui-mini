@@ -2,7 +2,7 @@
 <!--page/order/list/index.wxml-->
 <view class="order-list">
   <navigator url="/page/order/show/index?id={{item.order_id}}" class="order-item order-item_{{TYPE[item.type]}}" wx:for="{{items}}" wx:key="order_id">
-    <view class="order-item__status">{{STATUS[item.state]}}</view>
+    <view class="order-item__status">{{item.status_label}}</view>
     <view class="order-item__hd">
       <view>
         <view class="order-item__type"></view>

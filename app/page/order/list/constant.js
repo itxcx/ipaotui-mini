@@ -9,6 +9,10 @@ export const STATUS = {
     '15': '已处理'
 }
 
+export const STATUS_GIVEUP= {
+    '1': '待放弃', '2': '待同意',
+}
+
 export const START_LABEL = {
     '0': '发货地址',
     '1': '购买地址',
