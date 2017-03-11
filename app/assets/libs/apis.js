@@ -160,7 +160,7 @@ export function getOrderInfo(options) {
 // 代我买
 export function addOrderBuy(options) {
     const {
-        data, success, complete
+        data, success, error, complete
     } = options
     getApp().getUserInfo(function (err, userInfo) {
         if (err) {
@@ -176,7 +176,7 @@ export function addOrderBuy(options) {
             success(data) {
                 success && success(data)
             },
-            complete
+            error, complete
         })
     })
 }
@@ -316,4 +316,42 @@ export function finishOrder(options) {
             complete: hideLoading
         })
     })
+}
+
+// 获取微信支付参数
+export function getPayment(options) {
+    const {
+        order_id, success, complete
+    } = options
+
+    getApp().getUserInfo(function (err, userInfo) {
+        if (err) {
+            return alert(err)
+        }
+        fetch({
+            url: 'index.php?m=Api&c=WeixinMini&a=getPayment',
+            data: {
+                order_id,
+                openid: userInfo.openid
+            },
+            success,
+            complete,
+        })
+    })
+}
+// 微信支付
+export function requestPayment(options) {
+    const {
+        order_id,
+        success, fail, complete,
+    } = options
+    getPayment({
+        order_id,
+        success(data) {
+            wx.requestPayment(Object.assign(data, {
+                success, fail, complete
+            }))
+        },
+    })
+
 }

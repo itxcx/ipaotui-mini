@@ -19,6 +19,7 @@
 <view class="weui-cells__title">订单明细</view>
 <view class="weui-cells weui-cells_after-title">
   <view class="weui-cell">
+    <view class="weui-cell__hd"><view class="order-type order-type_{{TYPE[orderInfo.type]}}"></view></view>
     <view class="weui-cell__bd">{{orderInfo.good_info}}</view>
     <view class="weui-cell__ft">微信支付</view>
   </view>
@@ -46,7 +47,7 @@
 </block>
 <view class="weui-cells__title">其他信息</view>
 <view class="weui-cells weui-cells_after-title">
-  <view wx:if="{{orderInfo.length > 0}}" class="weui-cell weui-cell_misc">
+  <view wx:if="{{orderInfo.start_address != orderInfo.end_address}}" class="weui-cell weui-cell_misc">
     <view class="weui-cell__hd">配送距离</view>
     <view class="weui-cell__bd">{{orderInfo.length}}千米</view>
   </view>

@@ -8,17 +8,17 @@ import {
 } from '../../../assets/libs/apis'
 import {
   STATUS, STATUS_GIVEUP,
-  START_LABEL
+  START_LABEL, TYPE_LABEL, TYPE
 } from '../list/constant'
 
 Page({
   data: {
     orderInfo: {},
-    STATUS, START_LABEL
+    STATUS, START_LABEL, TYPE
   },
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
-    this.order_id = options.id
+    this.order_id = options.id || '5861'
     this.loadData()
   },
   onReady: function () {
@@ -44,7 +44,7 @@ Page({
       success(data) {
         data.add_time_format = datetimeFormat(data.add_time)
         data.status_label = data.state == '5' ? STATUS_GIVEUP[data.giveup] : STATUS[data.state]
-
+        data.type_label = TYPE_LABEL[data.type]
         that.setData({
           orderInfo: data
         })

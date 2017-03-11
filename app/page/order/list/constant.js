@@ -20,5 +20,10 @@ export const START_LABEL = {
 
 export const TYPE = {
       '0': 'send',
-      '1': 'buy'
+      '1': 'buy',
+}
+
+export const TYPE_LABEL = {
+    '0': '代我送',
+    '1': '代我买',
 }

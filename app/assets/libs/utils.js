@@ -1,7 +1,7 @@
 'use strict';
 import timeago from './timeago.min'
 import QQMapWX from './qqmap-wx-jssdk.min'
-import {gcj02tobd09} from './coordtransform'
+import { gcj02tobd09 } from './coordtransform'
 import { host } from '../../config'
 
 const qqmap = new QQMapWX({
@@ -110,25 +110,26 @@ export function fetch(options) {
 }
 
 // 提示框
-export function alert(content) {
+export function alert(content, callback) {
     wx.showModal({
         title: '提示',
         content: content,
-        showCancel: false
+        showCancel: false,
+        success: callback
     })
 }
 // 确认框
 export function confirm(options) {
     const {
         content, confirmText,
-        ok, 
+        ok,
     } = options
     wx.showModal({
         content,
         confirmText,
         cancelText: '关闭',
         success(res) {
-            if(res.confirm) {
+            if (res.confirm) {
                 ok && ok()
             }
         }
@@ -158,3 +159,4 @@ export function coordFormat(location) {
     // gcj02 转 bd09
     return gcj02tobd09(location.longitude, location.latitude).join(',')
 }
+
