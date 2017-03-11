@@ -44,7 +44,9 @@ page {
     padding: 5px 10px 5px 15px;
     border: 1px solid #25a1fa;
     border-radius: 20px/50%;
+    align-items:center;
 }
+
 
 .order button {
     margin-top: 0;

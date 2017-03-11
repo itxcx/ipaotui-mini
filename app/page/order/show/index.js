@@ -1,10 +1,14 @@
 // page/order/show/index.js
-import { datetimeFormat, confirm } from '../../../assets/libs/utils'
+import {
+  datetimeFormat, confirm, alert,
+  showLoading, hideLoading,
+} from '../../../assets/libs/utils'
 import {
   getOrderInfo,
   cancelOrder, giveupOrder,
   agreeGiveupOrder, disagreeGiveupOrder,
   finishOrder,
+  requestPayment,
 } from '../../../assets/libs/apis'
 import {
   STATUS, STATUS_GIVEUP,
@@ -18,7 +22,7 @@ Page({
   },
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
-    this.order_id = options.id || '5861'
+    this.order_id = options.id || '5882'
     this.loadData()
   },
   onReady: function () {
@@ -34,9 +38,11 @@ Page({
     // 页面关闭
   },
   onPullDownRefresh: function () {
-    this.loadData()
+    this.loadData(function () {
+      wx.stopPullDownRefresh()
+    })
   },
-  loadData() {
+  loadData(callback) {
     const that = this,
       order_id = this.order_id
     getOrderInfo({
@@ -48,8 +54,8 @@ Page({
         that.setData({
           orderInfo: data
         })
-        wx.stopPullDownRefresh()
-      }
+      },
+      complete: callback
     })
   },
   makePhoneCall(e) {
@@ -136,6 +142,36 @@ Page({
           success(data) {
             that.loadData()
           }
+        })
+      }
+    })
+  },
+  onPay(e) {
+    const order_id = this.order_id,
+      that = this
+
+    if (that.data.paying) {
+      return;
+    }
+    that.setData({
+      paying: true,
+    })
+    requestPayment({
+      order_id,
+      success(res) {
+        alert('微信支付成功')
+        that.loadData()
+      },
+      fail(res) {
+        if (res.errMsg == 'requestPayment:fail cancel') {
+          alert('微信支付已取消')
+        } else {
+          alert('微信支付出错')
+        }
+      },
+      complete() {
+        that.setData({
+          paying: false,
         })
       }
     })

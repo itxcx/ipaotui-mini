@@ -1,7 +1,7 @@
 import {
     fetch,
     showLoading, hideLoading,
-    coordFormat
+    coordFormat, confirm
 } from './utils'
 
 // 计算价格
@@ -133,7 +133,7 @@ export function getReleaseList(options) {
 // 订单详情
 export function getOrderInfo(options) {
     const {
-        order_id, success
+        order_id, success, complete
     } = options
     showLoading()
     getApp().getUserInfo(function (err, userInfo) {
@@ -148,12 +148,24 @@ export function getOrderInfo(options) {
                 order_id
             },
             success(data) {
+                hideLoading()
                 success && success(data)
             },
-            complete() {
-                wx.hideToast()
-            }
+            error: hideLoading,
+            complete
         })
+    })
+}
+
+function verifyPhone() {
+    confirm({
+        content: '您未验证手机, 不能下单',
+        confirmText: "立即验证",
+        ok() {
+            wx.navigateTo({
+                url: '/page/phone/index',
+            })
+        }
     })
 }
 
@@ -165,6 +177,10 @@ export function addOrderBuy(options) {
     getApp().getUserInfo(function (err, userInfo) {
         if (err) {
             return alert(err)
+        }
+        if (!userInfo.user_id) {
+            error && error()
+            return verifyPhone()
         }
         fetch({
             url: 'index.php?m=Api&c=My&a=addOrder_buy',
@@ -183,11 +199,15 @@ export function addOrderBuy(options) {
 // 代我送
 export function addOrder(options) {
     const {
-        data, success, complete
+        data, success, error, complete
     } = options
     getApp().getUserInfo(function (err, userInfo) {
         if (err) {
             return alert(err)
+        }
+        if (!userInfo.user_id) {
+            error && error()
+            return verifyPhone()
         }
         fetch({
             url: 'index.php?m=Api&c=My&a=addOrder',
@@ -199,7 +219,7 @@ export function addOrder(options) {
             success(data) {
                 success && success(data)
             },
-            complete
+            error, complete
         })
     })
 }
@@ -207,9 +227,8 @@ export function addOrder(options) {
 // 取消订单
 export function cancelOrder(options) {
     const {
-        order_id, success
+        order_id, success, complete
     } = options
-    showLoading()
     getApp().getUserInfo(function (err, userInfo) {
         if (err) {
             return alert(err)
@@ -222,16 +241,15 @@ export function cancelOrder(options) {
                 order_id,
             },
             success,
-            complete: hideLoading
+            complete,
         })
     })
 }
 // 放弃订单
 export function giveupOrder(options) {
     const {
-        order_id, success,
+        order_id, success, complete
     } = options
-    showLoading()
     getApp().getUserInfo(function (err, userInfo) {
         if (err) {
             return alert(err)
@@ -244,16 +262,15 @@ export function giveupOrder(options) {
                 order_id,
             },
             success,
-            complete: hideLoading
+            complete,
         })
     })
 }
 // 同意放弃订单
 export function agreeGiveupOrder(options) {
     const {
-        order_id, success,
+        order_id, success, complete
     } = options
-    showLoading()
     getApp().getUserInfo(function (err, userInfo) {
         if (err) {
             return alert(err)
@@ -267,16 +284,15 @@ export function agreeGiveupOrder(options) {
                 agree: 1,
             },
             success,
-            complete: hideLoading
+            complete,
         })
     })
 }
 // 不同意放弃订单
 export function disagreeGiveupOrder(options) {
     const {
-        order_id, success,
+        order_id, success, complete
     } = options
-    showLoading()
     getApp().getUserInfo(function (err, userInfo) {
         if (err) {
             return alert(err)
@@ -290,16 +306,15 @@ export function disagreeGiveupOrder(options) {
                 agree: 0,
             },
             success,
-            complete: hideLoading
+            complete,
         })
     })
 }
 // 完成订单
 export function finishOrder(options) {
     const {
-        order_id, success,
+        order_id, success, complete
     } = options
-    showLoading()
     getApp().getUserInfo(function (err, userInfo) {
         if (err) {
             return alert(err)
@@ -313,7 +328,7 @@ export function finishOrder(options) {
                 role: 'release',
             },
             success,
-            complete: hideLoading
+            complete,
         })
     })
 }
@@ -323,7 +338,6 @@ export function getPayment(options) {
     const {
         order_id, success, complete
     } = options
-
     getApp().getUserInfo(function (err, userInfo) {
         if (err) {
             return alert(err)

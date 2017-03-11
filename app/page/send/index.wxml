@@ -38,6 +38,6 @@
   </view>
   <template wx:if="{{priceInfo}}" is="priceInfo" data="{{...priceInfo}}" />
   <view class="weui-btn-area">
-    <button class="weui-btn" disabled="{{loading}}" loading="{{loading}}" type="primary" formType="submit">呼叫跑腿</button>
+    <button class="weui-btn" disabled="{{loading || !priceInfo}}" loading="{{loading}}" type="primary" formType="submit">呼叫跑腿</button>
   </view>
 </form>

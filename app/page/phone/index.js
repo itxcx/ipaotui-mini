@@ -1,4 +1,5 @@
 // page/phone/index.js
+import WxValidate from '../../assets/libs/WxValidate'
 import { alert } from '../../assets/libs/utils'
 import { getCode, verify } from '../../assets/libs/apis'
 const App = getApp()
@@ -6,7 +7,7 @@ Page({
   data: {
     countDown: 0,
     codeLabel: '获取验证码',
-    phone: '13000000004',
+    phone: '',
   },
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
@@ -31,7 +32,7 @@ Page({
     })
   },
   initValidate() {
-    this.WxValidate = App.WxValidate({
+    this.wxValidate = new WxValidate({
       phone: {
         required: true,
         tel: true,
@@ -55,8 +56,8 @@ Page({
     const params = e.detail.value
     const that = this
 
-    if (!this.WxValidate.checkForm(e)) {
-      const error = this.WxValidate.errorList[0]
+    if (!this.wxValidate.checkForm(e)) {
+      const error = this.wxValidate.errorList[0]
       that.setData({
         loading: false
       })

@@ -1,6 +1,6 @@
 // page/send/send.js
 import { getAddress, alert, coordFormat } from '../../assets/libs/utils'
-import { getPriceCalc, addOrder } from '../../assets/libs/apis'
+import { getPriceCalc, addOrder, requestPayment } from '../../assets/libs/apis'
 
 const defaultAddress = getAddress(0)
 Page({
@@ -96,13 +96,37 @@ Page({
         district_name: fromAddress.district,
       }, params),
       success(data) {
-        console.log(data)
+        requestPayment({
+          order_id: data.order_id,
+          success(res) {
+          },
+          fail(res) {
+          },
+          complete(res) {
+            that.setData({
+              loading: false
+            })
+            var msg;
+            if (res.errMsg == 'requestPayment:ok') {
+              msg = '微信支付成功'
+            } else if (res.errMsg == 'requestPayment:fail cancel') {
+              msg = '微信支付已取消'
+            } else {
+              msg = '微信支付出错'
+            }
+            alert(msg, function () {
+              wx.redirectTo({
+                url: `/page/order/show/index?id=${data.order_id}`
+              })
+            })
+          }
+        })
       },
-      complete() {
+      error() {
         that.setData({
           loading: false
         })
-      }
+      },
     })
   }
 })
