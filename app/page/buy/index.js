@@ -1,7 +1,7 @@
 // page/buy/index.js
 import WxValidate from '../../assets/libs/WxValidate'
 import { getAddress, alert, coordFormat } from '../../assets/libs/utils'
-import { getPriceCalc, getPriceCan, addOrderBuy, requestPayment } from '../../assets/libs/apis'
+import { getBuyPriceCalc, getPriceCan, addOrderBuy, requestPayment } from '../../assets/libs/apis'
 const defaultAddress = getAddress(0)
 
 Page({
@@ -35,7 +35,7 @@ Page({
     const {toAddress, buyAddress} = this.data
     const that = this
     if (buyAddress && toAddress) {
-      getPriceCalc({
+      getBuyPriceCalc({
         fromAddress: buyAddress,
         toAddress,
         success: function (data) {

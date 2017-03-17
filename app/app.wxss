@@ -40,3 +40,7 @@ button[disabled][type="primary"], button[loading][type="primary"] {
 .weui-form-preview__btn_warn {
     color: #E64340;
 }
+
+.weui-cell__hd {
+    white-space: nowrap;
+}

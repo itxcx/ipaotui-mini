@@ -4,7 +4,7 @@ import {
     coordFormat, confirm
 } from './utils'
 
-// 计算价格
+// 代我送计算价格
 export function getPriceCalc(options) {
     const {
         fromAddress, toAddress, success
@@ -16,7 +16,28 @@ export function getPriceCalc(options) {
             start_location: coordFormat(fromAddress.location),
             end_city: toAddress.city_id,
             end_location: coordFormat(toAddress.location),
-            district_id: fromAddress.district_id
+            district_id: fromAddress.district_id,
+            district_name: fromAddress.district            
+        },
+        success: function (data) {
+            success && success(data)
+        }
+    })
+}
+// 代我买计算价格
+export function getBuyPriceCalc(options) {
+    const {
+        fromAddress, toAddress, success
+    } = options
+    fetch({
+        url: "index.php?m=Api&c=Common&a=getBuyPriceCalc",
+        data: {
+            start_city: fromAddress.city_id,
+            start_location: coordFormat(fromAddress.location),
+            end_city: toAddress.city_id,
+            end_location: coordFormat(toAddress.location),
+            district_id: fromAddress.district_id,
+            district_name: fromAddress.district
         },
         success: function (data) {
             success && success(data)
