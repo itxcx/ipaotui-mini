@@ -9,39 +9,54 @@ export function getPriceCalc(options) {
     const {
         fromAddress, toAddress, success
     } = options
-    fetch({
-        url: "index.php?m=Api&c=Common&a=getPriceCalc",
-        data: {
-            start_city: fromAddress.city_id,
-            start_location: coordFormat(fromAddress.location),
-            end_city: toAddress.city_id,
-            end_location: coordFormat(toAddress.location),
-            district_id: fromAddress.district_id,
-            district_name: fromAddress.district            
-        },
-        success: function (data) {
-            success && success(data)
+    getApp().getUserInfo(function (err, userInfo) {
+        if (err) {
+            return alert(err)
         }
+        fetch({
+            url: "index.php?m=Api&c=Common&a=getPriceCalc",
+            data: {
+                user_id: userInfo.user_id,
+                user_token: userInfo.user_token,
+                start_city: fromAddress.city_id,
+                start_location: coordFormat(fromAddress.location),
+                end_city: toAddress.city_id,
+                end_location: coordFormat(toAddress.location),
+                district_id: fromAddress.district_id,
+                district_name: fromAddress.district
+            },
+            success: function (data) {
+                success && success(data)
+            }
+        })
     })
 }
+
 // 代我买计算价格
 export function getBuyPriceCalc(options) {
     const {
         fromAddress, toAddress, success
     } = options
-    fetch({
-        url: "index.php?m=Api&c=Common&a=getBuyPriceCalc",
-        data: {
-            start_city: fromAddress.city_id,
-            start_location: coordFormat(fromAddress.location),
-            end_city: toAddress.city_id,
-            end_location: coordFormat(toAddress.location),
-            district_id: fromAddress.district_id,
-            district_name: fromAddress.district
-        },
-        success: function (data) {
-            success && success(data)
+    getApp().getUserInfo(function (err, userInfo) {
+        if (err) {
+            return alert(err)
         }
+        fetch({
+            url: "index.php?m=Api&c=Common&a=getBuyPriceCalc",
+            data: {
+                user_id: userInfo.user_id,
+                user_token: userInfo.user_token,
+                start_city: fromAddress.city_id,
+                start_location: coordFormat(fromAddress.location),
+                end_city: toAddress.city_id,
+                end_location: coordFormat(toAddress.location),
+                district_id: fromAddress.district_id,
+                district_name: fromAddress.district
+            },
+            success: function (data) {
+                success && success(data)
+            }
+        })
     })
 }
 
@@ -51,14 +66,21 @@ export function getPriceCan(options) {
         city_id, district_id,
         success
     } = options
-    fetch({
-        url: "index.php?m=Api&c=Common&a=getPriceCan",
-        data: {
-            city_id, district_id
-        },
-        success: function (data) {
-            success && success(data)
+    getApp().getUserInfo(function (err, userInfo) {
+        if (err) {
+            return alert(err)
         }
+        fetch({
+            url: "index.php?m=Api&c=Common&a=getPriceCan",
+            data: {
+                user_id: userInfo.user_id,
+                user_token: userInfo.user_token,
+                city_id, district_id
+            },
+            success: function (data) {
+                success && success(data)
+            }
+        })
     })
 }
 
