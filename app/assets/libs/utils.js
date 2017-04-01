@@ -35,6 +35,25 @@ export function reverseGeocoder(options) {
     })
 }
 
+// 获取当前地理位置
+export function getCurrentAddress(options) {
+    const {
+        success, complete
+    } = options
+    wx.getLocation({
+        type: 'wgs84',
+        success(res) {
+            getAddressFromLocation({
+                location: {
+                    latitude: res.latitude,
+                    longitude: res.longitude,
+                },
+                success, complete
+            })
+        }
+    })
+}
+
 // 根据坐标获取地址信息
 export function getAddressFromLocation(options) {
     const {location, success} = options
@@ -45,6 +64,7 @@ export function getAddressFromLocation(options) {
             if (poi) {
                 var address = Object.assign({
                     address_name: poi.title,
+                    location,
                 }, resolveAdInfo(poi.ad_info))
 
                 success && success(address)
@@ -61,7 +81,6 @@ export function getPois(options) {
     qqmap.reverseGeocoder({
         location,
         get_poi: 1,
-        poi_options: "policy=2",
         success: function (res) {
             success && success(res.result.pois)
         },
@@ -103,6 +122,7 @@ export function fetch(options) {
                 options.success && options.success(data.data)
             } else {
                 alert(data.info)
+                options.error && options.error(data.info)
             }
             options.complete && options.complete()
         }

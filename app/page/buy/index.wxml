@@ -19,7 +19,7 @@
     </view>
   </view>
   <view class="weui-cells">
-    <navigator url="address/index" class="weui-cell weui-cell_address weui-cell_access" hover-class="weui-cell_active">
+    <navigator url="/page/address/set/index?from=buyAddress&name=购买地址" class="weui-cell weui-cell_address weui-cell_access" hover-class="weui-cell_active">
       <view class="weui-cell__hd">购买地址</view>
       <view class="weui-cell__bd">
         <template wx:if="{{buyAddress}}" is="addressInfo" data="{{...buyAddress}}" />
@@ -28,7 +28,7 @@
         {{buyAddress ? '': '可指定购买地址(默认就近购买)'}}
       </view>
     </navigator>
-    <navigator url="/page/address/select/index?from=toAddress&index={{toAddressIndex}}" class="weui-cell weui-cell_address weui-cell_access" hover-class="weui-cell_active">
+    <navigator url="/page/address/set/index?from=toAddress&name=收货地址" class="weui-cell weui-cell_address weui-cell_access" hover-class="weui-cell_active">
       <view class="weui-cell__hd">收货地址</view>
       <view class="weui-cell__bd">
         <template wx:if="{{toAddress}}" is="addressInfo" data="{{...toAddress}}" />

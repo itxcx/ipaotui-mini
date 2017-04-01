@@ -17,7 +17,7 @@
     </view>
   </view>
   <view class="weui-cells">
-    <navigator url="/page/address/select/index?from=fromAddress&index={{fromAddressIndex}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+    <navigator url="/page/address/set/index?from=fromAddress&name=发货地址" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
       <view class="weui-cell__hd">发货地址</view>
       <view class="weui-cell__bd">
         <template wx:if="{{fromAddress}}" is="addressInfo" data="{{...fromAddress}}" />
@@ -26,7 +26,7 @@
         {{fromAddress ? '': '请选择发货地址(必填)'}}
       </view>
     </navigator>
-    <navigator url="/page/address/select/index?from=toAddress&index={{toAddressIndex}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+    <navigator url="/page/address/set/index?from=toAddress&name=收货地址" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
       <view class="weui-cell__hd">收货地址</view>
       <view class="weui-cell__bd">
         <template wx:if="{{toAddress}}" is="addressInfo" data="{{...toAddress}}" />
@@ -35,6 +35,16 @@
         {{toAddress ? '': '请选择收获地址(必填)'}}
       </view>
     </navigator>
+  </view>
+  <view class="weui-cells">
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">收货人</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input name="phone" class="weui-input" placeholder="收货人手机号(选填)" />
+      </view>
+    </view>
   </view>
   <template wx:if="{{priceInfo}}" is="priceInfo" data="{{...priceInfo}}" />
   <view class="weui-btn-area">

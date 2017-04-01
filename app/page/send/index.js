@@ -1,16 +1,12 @@
 // page/send/send.js
-import { getAddress, alert, coordFormat } from '../../assets/libs/utils'
+import { getCurrentAddress, alert, coordFormat } from '../../assets/libs/utils'
 import { getPriceCalc, addOrder, requestPayment } from '../../assets/libs/apis'
 
-const defaultAddress = getAddress(0)
 Page({
-  data: {
-    fromAddress: defaultAddress,
-    fromAddressIndex: defaultAddress ? 0 : -1,
-    toAddressIndex: -1,
-  },
+  data: {},
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
+    this.initAddress()
   },
   onReady: function () {
     // 页面渲染完成
@@ -34,11 +30,15 @@ Page({
       toAddress = this.data.toAddress,
       that = this
     if (fromAddress && toAddress) {
+      that.setData({
+        loading: true
+      })
       getPriceCalc({
         fromAddress, toAddress,
         success: function (data) {
           that.setData({
-            priceInfo: data
+            priceInfo: data,
+            loading: false,
           })
         }
       })
@@ -91,8 +91,6 @@ Page({
         end_city: toAddress.city_id,
         end_address: [toAddress.address_name, toAddress.detail].join(' ').trim(),
         end_location: coordFormat(toAddress.location),
-        send_start_phones: fromAddress.phone,
-        send_finish_key_phones: toAddress.phone,
         district_name: fromAddress.district,
       }, params),
       success(data) {
@@ -115,7 +113,7 @@ Page({
               msg = '微信支付出错'
             }
             alert(msg, function () {
-              wx.redirectTo({
+              wx.navigateTo({
                 url: `/page/order/show/index?id=${data.order_id}`
               })
             })
@@ -128,5 +126,25 @@ Page({
         })
       },
     })
+  },
+  initAddress() {
+    var that = this
+    getCurrentAddress({
+      success(address) {
+        var {fromAddress} = that.data
+        if (!fromAddress) {
+          that.setData({
+            fromAddress: address
+          })
+          that.calcPriceIfNeed()
+        }
+      }
+    })
+  },
+  onShareAppMessage() {
+    return {
+      title: '爱跑腿-代我送',
+      path: '/page/send/index'
+    }
   }
 })

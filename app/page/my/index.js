@@ -32,8 +32,8 @@ Page({
   },
   onShareAppMessage() {
     return {
-      title: '爱跑腿',
-      path: '/page/index/index'
+      title: '爱跑腿-我的',
+      path: '/page/my/index'
     }
   }
 })

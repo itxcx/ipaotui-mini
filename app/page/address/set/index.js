@@ -1,10 +1,22 @@
-// page/buy/address/index.js
+// page/address/set/index.js
 import { getPrevPage, alert, reverseGeocoder } from '../../../assets/libs/utils'
 
 Page({
   data: {},
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
+    var {from, name} = options
+    this.options = options
+    wx.setNavigationBarTitle({
+      title: name
+    })
+    this.setData({
+      name
+    })
+    var address = getPrevPage().data[from]
+    if (address) {
+      this.setData(address)
+    }
   },
   onReady: function () {
     // 页面渲染完成
@@ -35,13 +47,13 @@ Page({
   formSubmit: function (e) {
     const that = this
     const params = e.detail.value
-    
-    const {location , address_name} = this.data
+
+    const {location, address_name} = this.data
     if (!location || !address_name) {
       that.setData({
         loading: false
       })
-      return alert('请选取联系地址')
+      return alert(`请选取${this.data.name}`)
     }
 
     this.setData({
@@ -51,7 +63,7 @@ Page({
       location,
       success: function (address) {
         getPrevPage().setData({
-          buyAddress: Object.assign(address, {
+          [that.options.from]: Object.assign(address, {
             address_name, location
           }, params)
         })

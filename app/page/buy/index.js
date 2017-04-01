@@ -1,22 +1,18 @@
 // page/buy/index.js
 import WxValidate from '../../assets/libs/WxValidate'
-import { getAddress, alert, coordFormat } from '../../assets/libs/utils'
-import { getBuyPriceCalc, getPriceCan, addOrderBuy, requestPayment } from '../../assets/libs/apis'
-const defaultAddress = getAddress(0)
+import { getCurrentAddress, alert, coordFormat } from '../../assets/libs/utils'
+import {
+  getBuyPriceCalc, getPriceCan,
+  addOrderBuy, requestPayment
+} from '../../assets/libs/apis'
+
 
 Page({
-  data: {
-    toAddress: defaultAddress,
-    toAddressIndex: defaultAddress ? 0 : -1,
-  },
+  data: {},
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
     this.initValidate()
-    if (options.info) {
-      this.setData({
-        good_info: options.info
-      })
-    }
+    this.initAddress()
   },
   onReady: function () {
     // 页面渲染完成
@@ -35,24 +31,32 @@ Page({
     const {toAddress, buyAddress} = this.data
     const that = this
     if (buyAddress && toAddress) {
+      that.setData({
+        loading: true
+      })
       getBuyPriceCalc({
         fromAddress: buyAddress,
         toAddress,
         success: function (data) {
           that.setData({
-            priceInfo: data
+            priceInfo: data,
+            loading: false,
           })
         }
       })
     } else if (toAddress) {
       const {city_id, district_id} = toAddress
+      that.setData({
+        loading: true
+      })
       getPriceCan({
         city_id, district_id,
         success: function (data) {
           that.setData({
             priceInfo: {
-              price: data.order_buy
-            }
+              price: data.order_buy,
+            },
+            loading: false,
           })
         }
       })
@@ -97,13 +101,12 @@ Page({
         specified_location: coordFormat(buyAddress.location),
       })
     }
-    addOrderBuy(Object.assign({
+    addOrderBuy({
       data: Object.assign({
         errands_price: priceInfo.price,
         city: toAddress.city_id,
         address: [toAddress.address_name, toAddress.detail].join(' ').trim(),
         location: coordFormat(toAddress.location),
-        send_finish_key_phones: toAddress.phone,
         district_name: toAddress.district,
       }, data, params),
       success(data) {
@@ -126,7 +129,7 @@ Page({
               msg = '微信支付出错'
             }
             alert(msg, function () {
-              wx.redirectTo({
+              wx.navigateTo({
                 url: `/page/order/show/index?id=${data.order_id}`
               })
             })
@@ -138,7 +141,7 @@ Page({
           loading: false
         })
       },
-    }))
+    })
   },
   initValidate() {
     this.wxValidate = new WxValidate({
@@ -151,4 +154,24 @@ Page({
         },
       })
   },
+  initAddress() {
+    var that = this
+    getCurrentAddress({
+      success(address) {
+        var {toAddress} = that.data
+        if (!toAddress) {
+          that.setData({
+            toAddress: address
+          })
+          that.calcPriceIfNeed()
+        }
+      }
+    })
+  },
+  onShareAppMessage() {
+    return {
+      title: '爱跑腿-代我买',
+      path: '/page/buy/index'
+    }
+  }
 })

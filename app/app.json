@@ -1,13 +1,13 @@
 {
   "pages": [
-    "page/index/index",
-    "page/order/show/index",
     "page/send/index",
     "page/buy/index",
+    "page/index/index",
+    "page/address/set/index",
+    "page/order/show/index",
     "page/order/list/index",
     "page/address/add/index",
     "page/address/list/index",
-    "page/buy/address/index",
     "page/my/index",
     "page/phone/index",
     "page/address/select/index",
@@ -31,10 +31,16 @@
     "backgroundColor": "#ffffff",
     "list": [
       {
-        "pagePath": "page/index/index",
-        "iconPath": "assets/images/Tabbar_Home@2x.png",
-        "selectedIconPath": "assets/images/Tabbar_Home_s@2x.png",
-        "text": "首页"
+        "pagePath": "page/buy/index",
+        "iconPath": "assets/images/Tabbar_Buy@2x.png",
+        "selectedIconPath": "assets/images/Tabbar_Buy_Pre@2x.png",
+        "text": "代我买"
+      },
+      {
+        "pagePath": "page/send/index",
+        "iconPath": "assets/images/Tabbar_Tran@2x.png",
+        "selectedIconPath": "assets/images/Tabbar_Tran_Pre@2x.png",
+        "text": "代我送"
       },
       {
         "pagePath": "page/my/index",

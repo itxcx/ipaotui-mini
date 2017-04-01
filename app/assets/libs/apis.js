@@ -230,7 +230,9 @@ export function addOrderBuy(options) {
             data: Object.assign({
                 user_id: userInfo.user_id,
                 user_token: userInfo.user_token,
+                send_finish_key_phones: userInfo.bound_phone,
                 pay_type: 0,
+
             }, data),
             success(data) {
                 success && success(data)
@@ -257,6 +259,7 @@ export function addOrder(options) {
             data: Object.assign({
                 user_id: userInfo.user_id,
                 user_token: userInfo.user_token,
+                send_start_phones: userInfo.bound_phone,
                 pay_type: 0,
             }, data),
             success(data) {
