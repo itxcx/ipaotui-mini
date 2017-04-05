@@ -2,7 +2,7 @@
 
 <form catchsubmit="formSubmit">
   <view class="weui-cells">
-    <view class="weui-cell weui-cell_select" bindtap="chooseLocation">
+    <view hover="true" hover-class="weui-cell_active" class="weui-cell weui-cell_select" catchtap="chooseLocation">
       <view class="weui-cell__hd weui-cell__hd_in-select-after">
         <view class="weui-label">{{name}}</view>
       </view>
