@@ -14,7 +14,7 @@ export const STATUS_GIVEUP= {
 }
 
 export const START_LABEL = {
-    '0': '发货地址',
+    '0': '发货信息',
     '1': '购买地址',
 }
 

@@ -15,7 +15,9 @@ Page({
   onShow: function () {
     // 页面显示
     const that = this
+    wx.showNavigationBarLoading()
     App.getUserInfo(function (err, userInfo) {
+      wx.hideNavigationBarLoading()
       if (err) {
         return false
       }
@@ -32,7 +34,7 @@ Page({
   },
   onShareAppMessage() {
     return {
-      title: '爱跑腿-我的',
+      title: '爱跑腿-个人信息',
       path: '/page/my/index'
     }
   }

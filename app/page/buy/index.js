@@ -63,6 +63,13 @@ Page({
     }
 
   },
+  clearAddress(e) {
+    console.log(e.currentTarget)
+    var {name} = e.currentTarget.dataset;
+    this.setData({
+      [name]: null
+    })
+  },
   formSubmit(e) {
     const that = this
 

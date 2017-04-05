@@ -41,7 +41,7 @@ export function getCurrentAddress(options) {
         success, complete
     } = options
     wx.getLocation({
-        type: 'wgs84',
+        type: 'gcj02',
         success(res) {
             getAddressFromLocation({
                 location: {

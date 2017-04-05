@@ -63,7 +63,7 @@
     </view>
   </view>
   <view class="weui-cell weui-cell_misc">
-    <view class="weui-cell__hd">收货地址</view>
+    <view class="weui-cell__hd">收货信息</view>
     <view class="weui-cell__bd">
       <view data-phone="{{orderInfo.send_finish_key_phones}}" bindtap="makePhoneCall">{{orderInfo.send_finish_key_phones || ''}}</view>
       <view>{{orderInfo.end_address}}</view>

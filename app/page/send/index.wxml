@@ -42,7 +42,7 @@
         <view class="weui-label">收货人</view>
       </view>
       <view class="weui-cell__bd">
-        <input name="phone" class="weui-input" placeholder="收货人手机号(选填)" />
+        <input name="send_finish_key_phones" class="weui-input" placeholder="收货人手机号(选填)" />
       </view>
     </view>
   </view>

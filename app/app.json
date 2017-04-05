@@ -1,10 +1,10 @@
 {
   "pages": [
-    "page/send/index",
     "page/buy/index",
+    "page/order/show/index",
+    "page/send/index",
     "page/index/index",
     "page/address/set/index",
-    "page/order/show/index",
     "page/order/list/index",
     "page/address/add/index",
     "page/address/list/index",

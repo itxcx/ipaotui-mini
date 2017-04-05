@@ -1,4 +1,5 @@
 // page/send/send.js
+import WxValidate from '../../assets/libs/WxValidate'
 import { getCurrentAddress, alert, coordFormat } from '../../assets/libs/utils'
 import { getPriceCalc, addOrder, requestPayment } from '../../assets/libs/apis'
 
@@ -7,6 +8,7 @@ Page({
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
     this.initAddress()
+    this.initValidate()
   },
   onReady: function () {
     // 页面渲染完成
@@ -51,6 +53,13 @@ Page({
     this.setData({
       loading: true
     })
+    if (!this.wxValidate.checkForm(e)) {
+      const error = this.wxValidate.errorList[0]
+      that.setData({
+        loading: false
+      })
+      return alert(error.msg)
+    }
     const {
       info,
       fromAddress, toAddress,
@@ -146,5 +155,16 @@ Page({
       title: '爱跑腿-代我送',
       path: '/page/send/index'
     }
-  }
+  },
+  initValidate() {
+    this.wxValidate = new WxValidate({
+      send_finish_key_phones: {
+        tel: true,
+      }, 
+    }, {
+      send_finish_key_phones: {
+        tel: '请输入有效收货人手机号'
+      }
+    })
+  },
 })
