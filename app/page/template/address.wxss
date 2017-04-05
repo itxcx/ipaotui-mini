@@ -17,7 +17,7 @@
 }
 
 .address-clear:after {
-  content: '\02715';
+  content: '\2715';
   display: inline-block;
   vertical-align: middle;
 }
