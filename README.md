@@ -5,9 +5,13 @@
 
 ## 配置
 
-### 使用测试接口域名
+### 接口域名切换, 默认为正式接口域名
 ```javascript
+// 测试域名
 wx.setStorageSync('debug', true)
+
+// 正式域名
+wx.removeStorageSync('debug')
 ```
 
 ### request合法域名
