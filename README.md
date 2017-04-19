@@ -30,3 +30,6 @@ https://apitest.ipaotui.com
 
 ### 我的
 ![my](/images/my.png)
+
+### 小程序二维码
+![qrcode](/images/qrcode.jpg)
